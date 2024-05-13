@@ -1,12 +1,12 @@
-name: "Set theme labels"
-
-on:
-  - pull_request_target
-
 jobs:
   triage:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
-      - uses: actions/labeler@v4
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+    - continue-on-error: true
+      uses: actions/labeler@v4
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+name: Set theme labels
+on:
+  repository_dispatch:
+    types: trigger-ga___labeler.yml

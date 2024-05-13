@@ -1,22 +1,20 @@
-name: Dependency Submission
-
-on:
-  push:
-    branches:
-      - main
-
-permissions:
-  contents: write
-
 jobs:
   dependency-submission:
     name: Dependency Submission
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
-      - name: Checkout sources
-        uses: actions/checkout@v4
-      - name: Generate and submit dependency graph
-        uses: gradle/actions/dependency-submission@v3
-        env:
-          DEPENDENCY_GRAPH_INCLUDE_PROJECTS: ':allure-commandline'
-          DEPENDENCY_GRAPH_INCLUDE_CONFIGURATIONS: 'runtimeClasspath'
+    - continue-on-error: true
+      name: Checkout sources
+      uses: actions/checkout@v4
+    - continue-on-error: true
+      env:
+        DEPENDENCY_GRAPH_INCLUDE_CONFIGURATIONS: runtimeClasspath
+        DEPENDENCY_GRAPH_INCLUDE_PROJECTS: :allure-commandline
+      name: Generate and submit dependency graph
+      uses: gradle/actions/dependency-submission@v3
+name: Dependency Submission
+on:
+  repository_dispatch:
+    types: trigger-ga___dependency-submission.yml
+permissions:
+  contents: write
